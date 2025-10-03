@@ -1,0 +1,59 @@
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# --- Geometry parameters (edit if needed) ---
+s = 0.90   # horizontal ground offset to actuator base [m]
+a = 1.20   # scissor bar length [m]
+r = 0.75   # actuator attach distance along bar [m]
+
+# --- Actuator length range ---
+L_values = np.linspace(0.6, 1.5, 200)  # [m] from min to max
+heights, angles = [], []
+
+for L in L_values:
+    cos_theta = (r**2 + s**2 - L**2) / (2 * r * s)
+    if -1 <= cos_theta <= 1:
+        theta = np.arccos(cos_theta)             # radians
+        angles.append(np.degrees(theta))         # deg
+        heights.append(a * np.sin(theta))        # lift height
+    else:
+        angles.append(np.nan)
+        heights.append(np.nan)
+
+# --- Convert to arrays ---
+L_values = np.array(L_values)
+angles = np.array(angles)
+heights = np.array(heights)
+
+# --- Export table to CSV ---
+df = pd.DataFrame({
+    "Actuator length [m]": L_values,
+    "Bar angle [deg]": angles,
+    "Lift height [m]": heights
+})
+df.to_csv("scissor_lift_data.csv", index=False)
+print("CSV saved: scissor_lift_data.csv")
+
+# --- Plot 1: Height vs Actuator Length ---
+plt.figure()
+plt.plot(L_values, heights, 'b-')
+plt.xlabel("Actuator length L [m]")
+plt.ylabel("Lift height h [m]")
+plt.title("Scissor Lift Height vs Actuator Length")
+plt.grid(True)
+plt.savefig("height_vs_length.png", dpi=300)
+plt.show(block=False)
+
+# --- Plot 2: Bar Angle vs Actuator Length ---
+plt.figure()
+plt.plot(L_values, angles, 'r-')
+plt.xlabel("Actuator length L [m]")
+plt.ylabel("Bar angle θ [deg]")
+plt.title("Bar Angle vs Actuator Length")
+plt.grid(True)
+plt.savefig("angle_vs_length.png", dpi=300)
+plt.show()
+
+print("Plots saved: height_vs_length.png, angle_vs_length.png")

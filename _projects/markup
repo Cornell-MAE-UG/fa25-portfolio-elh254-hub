@@ -1,0 +1,44 @@
+# Scissor Lift Actuator Analysis
+
+## Introduction
+The goal of this assignment was to model the geometry of a single-bar scissor lift driven by a linear actuator, and to quantify how actuator length affects lift height and bar angle.
+
+## Methods
+A Python script was written to solve the actuator-bar geometry using the law of cosines.  
+Key dimensions:
+- Bar length: 1.20 m
+- Actuator attach point: 0.75 m from pivot
+- Actuator base offset: 0.90 m
+- Actuator length range: 0.6 m – 1.5 m
+
+The script swept actuator length values, solved for bar angle, and computed lift height. Results were exported to CSV and visualized with plots.
+
+## Results
+The table below shows sample results (first 10 rows).  
+The full dataset is available here: [scissor_lift_data.csv](scissor_lift_data.csv).
+
+| Actuator length [m] | Bar angle [deg] | Lift height [m] |
+|---------------------|-----------------|-----------------|
+| 0.60                | 179.0           | 0.021           |
+| 0.65                | 158.6           | 0.262           |
+| 0.70                | 141.6           | 0.465           |
+| 0.75                | 126.9           | 0.623           |
+| 0.80                | 114.0           | 0.741           |
+| 0.85                | 102.5           | 0.823           |
+| 0.90                | 92.1            | 0.874           |
+| 0.95                | 82.6            | 0.899           |
+| 1.00                | 73.9            | 0.902           |
+| 1.05                | 65.9            | 0.887           |
+
+### Plots
+
+![Lift height vs actuator length](height_vs_length.png)  
+*Figure 1: Lift height vs actuator length.*
+
+![Bar angle vs actuator length](angle_vs_length.png)  
+*Figure 2: Bar angle vs actuator length.*
+
+## Reflection
+The actuator produces nonlinear changes in lift height. The height increases rapidly at smaller actuator lengths, but levels off near 0.9–1.0 m.  
+The bar angle decreases monotonically with actuator length, consistent with the scissor geometry.  
+This demonstrates that actuator placement strongly influences both the stability and maximum height of the lift. The analysis successfully modeled the kinematics of the scissor lift. Using code to sweep actuator lengths provided both numerical data and visual plots, which can now be used to guide design choices.
